@@ -1,39 +1,26 @@
 ﻿using MediatR;
+using ServiceRequestManagement.API.Application.DTOs;
 using ServiceRequestManagement.Domain.ServiceRequestAggregate;
-using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
 
 namespace ServiceRequestManagement.API.Application.Commands
 {
     /// <summary>
-    /// Command to create ServiceRequest
+    /// CreateServiceRequestCommand class.
     /// </summary>
-    [DataContract]
     public class CreateServiceRequestCommand : IRequest<ServiceRequest>
     {
         /// <summary>
-        /// The building code of the ServiceRequest.
+        /// The request body of the expected ServiceRequest to create.
         /// </summary>
-        [DataMember]
-        [Required]
-        [MaxLength(32)]
-
-        public string BuildingCode { get; set; }
+        public PostCreateServiceRequestDTO RequestBody { get; private set; }
 
         /// <summary>
-        /// The individual who created the ServiceRequest.
+        /// The constructor for the CreateServiceRequestCommandClass.
         /// </summary>
-        [DataMember]
-        [Required]
-        [MaxLength(32)]
-        public string CreatedBy { get; set; }
-
-        /// <summary>
-        /// The description of the ServiceRequest.
-        /// </summary>
-        [DataMember]
-        [Required]
-        [MaxLength(256)]
-        public string Description { get; set; }
+        /// <param name="requestBody">The request body of the expected ServiceRequest to create.</param>
+        public CreateServiceRequestCommand(PostCreateServiceRequestDTO requestBody)
+        {
+            RequestBody = requestBody;
+        }
     }
 }
