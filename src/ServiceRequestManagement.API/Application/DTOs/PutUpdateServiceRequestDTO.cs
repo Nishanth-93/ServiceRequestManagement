@@ -8,7 +8,6 @@ namespace ServiceRequestManagement.API.Application.DTOs
     /// <summary>
     /// The data transfer object for the PUT request to update a single service request.
     /// </summary>
-
     [DataContract]
     public class PutUpdateServiceRequestDTO
     {

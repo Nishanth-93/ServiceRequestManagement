@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
 using ServiceRequestManagement.API.Application.Commands;
+using ServiceRequestManagement.API.Application.DTOs;
 using ServiceRequestManagement.Domain.ServiceRequestAggregate;
 using System;
 using Xunit;
@@ -26,12 +27,14 @@ namespace ServiceRequestManagement.UnitTests.Application.Commands
                .Setup(serviceRequestRepo => serviceRequestRepo.Create(It.IsAny<ServiceRequest>()))
                .Returns<ServiceRequest>(serviceRequest => serviceRequest);
 
-            var createServiceRequestCommand = new CreateServiceRequestCommand
+            var requestDTO = new PostCreateServiceRequestDTO
             {
                 BuildingCode = "123",
                 CreatedBy = "Aaron Jaeger",
                 Description = "Turn up the heat!"
             };
+
+            var createServiceRequestCommand = new CreateServiceRequestCommand(requestDTO);
 
             var target = new CreateServiceRequestCommandHandler(_logger.Object, _serviceRequestRepository.Object);
 
@@ -39,9 +42,9 @@ namespace ServiceRequestManagement.UnitTests.Application.Commands
             var actual = await target.Handle(createServiceRequestCommand, default);
 
             // Assert
-            Assert.Equal(createServiceRequestCommand.BuildingCode, actual.GetBuildingCode);
-            Assert.Equal(createServiceRequestCommand.CreatedBy, actual.GetCreatedBy);
-            Assert.Equal(createServiceRequestCommand.Description, actual.GetDescription);
+            Assert.Equal(createServiceRequestCommand.RequestBody.BuildingCode, actual.GetBuildingCode);
+            Assert.Equal(createServiceRequestCommand.RequestBody.CreatedBy, actual.GetCreatedBy);
+            Assert.Equal(createServiceRequestCommand.RequestBody.Description, actual.GetDescription);
             Assert.Equal(CurrentStatus.Created, actual.CurrentStatus);
             Assert.InRange(actual.GetCreatedDate, DateTime.UtcNow.AddSeconds(-30), DateTime.UtcNow);
             Assert.Null(actual.GetLastModifiedBy);

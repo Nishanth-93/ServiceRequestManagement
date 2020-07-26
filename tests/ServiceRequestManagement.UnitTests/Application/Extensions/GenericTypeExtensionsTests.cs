@@ -1,4 +1,4 @@
-﻿using ServiceRequestManagement.API.Application.Commands;
+﻿using ServiceRequestManagement.API.Application.DTOs;
 using ServiceRequestManagement.API.Application.Extensions;
 using Xunit;
 
@@ -11,7 +11,7 @@ namespace ServiceRequestManagement.UnitTests.Application.Extensions
         public void Given_NonGenericTypedClass_When_CallingGetGenericTypeNameExtension_Then_ReturnsTypeName()
         {
             // Arrange
-            var nonGenericClass = new CreateServiceRequestCommand
+            var nonGenericClass = new PostCreateServiceRequestDTO
             {
                 BuildingCode = "123",
                 CreatedBy = "Aaron",
@@ -22,7 +22,7 @@ namespace ServiceRequestManagement.UnitTests.Application.Extensions
             var actual = nonGenericClass.GetGenericTypeName();
 
             // Assert
-            Assert.Equal("CreateServiceRequestCommand", actual);
+            Assert.Equal("PostCreateServiceRequestDTO", actual);
         }
     }
 }

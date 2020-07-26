@@ -35,7 +35,7 @@ namespace ServiceRequestManagement.API.Application.Commands
         /// <returns>The created ServiceRequest entity</returns>
         public Task<ServiceRequest> Handle(CreateServiceRequestCommand request, CancellationToken cancellationToken)
         {
-            var serviceRequest = new ServiceRequest(request.BuildingCode, request.Description, request.CreatedBy);
+            var serviceRequest = new ServiceRequest(request.RequestBody.BuildingCode, request.RequestBody.Description, request.RequestBody.CreatedBy);
 
             _logger.LogInformation("Creating Service Request - ServiceRequest: {@ServiceRequest}", serviceRequest);
 

@@ -42,9 +42,11 @@ namespace ServiceRequestManagement.API.Controllers
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<ActionResult<ServiceRequestDTO>> CreateServiceRequestAsync([FromBody]CreateServiceRequestCommand request)
+        public async Task<ActionResult<ServiceRequestDTO>> CreateServiceRequestAsync([FromBody]PostCreateServiceRequestDTO request)
         {
-            var result = await _mediator.Send(request);
+            var command = new CreateServiceRequestCommand(request);
+
+            var result = await _mediator.Send(command);
 
             return Created(nameof(CreateServiceRequestAsync), result.AsServiceRequestDTO());
         }
