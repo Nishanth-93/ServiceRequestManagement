@@ -21,4 +21,9 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Test
-      run: dotnet test --no-restore
+      run: dotnet test .\tests\ServiceRequestManagement.UnitTests\ServiceRequestManagement.UnitTests.csproj --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+    - name: Upload Coverage
+      run: |
+      curl -s https://codecov.io/bash > codecov
+      chmod +x codecov
+      ./codecov -f "tests/ServiceRequestManagement.UnitTest/coverage.opencover.xml"
