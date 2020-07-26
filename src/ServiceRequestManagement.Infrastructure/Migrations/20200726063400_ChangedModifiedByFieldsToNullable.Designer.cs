@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ServiceRequestManagement.Infrastructure;
 
 namespace ServiceRequestManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(ServiceRequestManagementContext))]
-    partial class ServiceRequestManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20200726063400_ChangedModifiedByFieldsToNullable")]
+    partial class ChangedModifiedByFieldsToNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,14 +33,12 @@ namespace ServiceRequestManagement.Infrastructure.Migrations
                     b.Property<string>("_buildingCode")
                         .IsRequired()
                         .HasColumnName("BuildingCode")
-                        .HasColumnType("nvarchar(32)")
-                        .HasMaxLength(32);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("_createdBy")
                         .IsRequired()
                         .HasColumnName("CreatedBy")
-                        .HasColumnType("nvarchar(32)")
-                        .HasMaxLength(32);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("_createdDate")
                         .HasColumnName("CreatedDate")
@@ -47,13 +47,11 @@ namespace ServiceRequestManagement.Infrastructure.Migrations
                     b.Property<string>("_description")
                         .IsRequired()
                         .HasColumnName("Description")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("_lastModifiedBy")
                         .HasColumnName("LastModifiedBy")
-                        .HasColumnType("nvarchar(32)")
-                        .HasMaxLength(32);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("_lastModifiedDate")
                         .HasColumnName("LastModifiedDate")

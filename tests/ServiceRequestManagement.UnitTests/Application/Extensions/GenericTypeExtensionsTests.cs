@@ -1,5 +1,7 @@
 ﻿using ServiceRequestManagement.API;
+using ServiceRequestManagement.API.Application.Commands;
 using ServiceRequestManagement.API.Application.Extensions;
+using ServiceRequestManagement.Domain.ServiceRequestAggregate;
 using Xunit;
 
 namespace ServiceRequestManagement.UnitTests.Application.Extensions
@@ -11,13 +13,18 @@ namespace ServiceRequestManagement.UnitTests.Application.Extensions
         public void Given_NonGenericTypedClass_When_CallingGetGenericTypeNameExtension_Then_ReturnsTypeName()
         {
             // Arrange
-            var nonGenericClass = new WeatherForecast();
+            var nonGenericClass = new CreateServiceRequestCommand
+            {
+                BuildingCode = "123",
+                CreatedBy = "Aaron",
+                Description = "Turn up the heat!"
+            };
 
             // Act
             var actual = nonGenericClass.GetGenericTypeName();
 
             // Assert
-            Assert.Equal("WeatherForecast", actual);
+            Assert.Equal("CreateServiceRequestCommand", actual);
         }
     }
 }

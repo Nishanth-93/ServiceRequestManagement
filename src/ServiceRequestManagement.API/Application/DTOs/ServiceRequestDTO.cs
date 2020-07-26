@@ -1,11 +1,12 @@
 ﻿using ServiceRequestManagement.Domain.ServiceRequestAggregate;
 using System;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace ServiceRequestManagement.API.Application.DTOs
 {
     /// <summary>
-    /// The ServiceRequest data transfer object implementation used as a response to ServiceRequest API request. This class decouples are response contracts from our ServiceRequest entity.
+    /// The ServiceRequest data transfer object implementation used as a response to ServiceRequest API request. This class decouples our response contracts from our ServiceRequest entity.
     /// </summary>
     [DataContract]
     public class ServiceRequestDTO
@@ -32,6 +33,7 @@ namespace ServiceRequestManagement.API.Application.DTOs
         /// The current status of the ServiceRequest.
         /// </summary>
         [DataMember]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public CurrentStatus CurrentStatus { get; set; }
         
         /// <summary>
