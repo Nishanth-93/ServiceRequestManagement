@@ -8,7 +8,7 @@ on:
 jobs:
   Build:
     name: Build and Run Unit-Tests with .Net Core SDK
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - name: Checkout Branch
       uses: actions/checkout@v1
@@ -21,6 +21,6 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Test
-      run: dotnet test ./tests/ServiceRequestManagement.UnitTests/ServiceRequestManagement.UnitTests.csproj --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Exclude="[*]ServiceRequestManagement.Infrastructure.*"
+      run: dotnet test ./tests/ServiceRequestManagement.UnitTests/ServiceRequestManagement.UnitTests.csproj --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Exclude="[*]ServiceRequestManagement.Infrastructure.*,[*]*Startup,[*]*Program,[*]ServiceRequestManagement.API.Controllers.*"
     - name: Upload Coverage
       run: bash <(curl -s https://codecov.io/bash) -f tests/ServiceRequestManagement.UnitTests/coverage.opencover.xml
