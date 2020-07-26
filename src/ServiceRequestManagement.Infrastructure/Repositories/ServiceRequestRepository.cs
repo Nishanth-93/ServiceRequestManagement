@@ -24,5 +24,18 @@ namespace ServiceRequestManagement.Infrastructure.Repositories
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
+
+        /// <summary>
+        /// Creates a ServiceRequest entity.
+        /// </summary>
+        /// <param name="serviceRequest"></param>
+        /// <returns>Created ServiceRequest entity.</returns>
+        public ServiceRequest Create(ServiceRequest serviceRequest)
+        {
+            return _context
+                .ServiceRequests
+                .Add(serviceRequest)
+                .Entity;
+        }
     }
 }

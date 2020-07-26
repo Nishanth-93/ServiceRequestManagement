@@ -30,19 +30,22 @@ namespace ServiceRequestManagement.Infrastructure.EntityConfigurations
                 .Property<string>("_buildingCode")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
                 .HasColumnName("BuildingCode")
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(32);
 
             entityBuilder
                 .Property<string>("_description")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
                 .HasColumnName("Description")
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(256);
 
             entityBuilder
                 .Property<string>("_createdBy")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
                 .HasColumnName("CreatedBy")
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(32);
 
             entityBuilder
                 .Property<DateTime>("_createdDate")
@@ -54,13 +57,14 @@ namespace ServiceRequestManagement.Infrastructure.EntityConfigurations
                 .Property<string>("_lastModifiedBy")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
                 .HasColumnName("LastModifiedBy")
-                .IsRequired();
+                .IsRequired(false)
+                .HasMaxLength(32);
 
             entityBuilder
                 .Property<DateTime?>("_lastModifiedDate")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
                 .HasColumnName("LastModifiedDate")
-                .IsRequired();
+                .IsRequired(false);
         }
     }
 }

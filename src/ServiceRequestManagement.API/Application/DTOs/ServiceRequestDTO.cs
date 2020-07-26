@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace ServiceRequestManagement.API.Application.DTOs
 {
     /// <summary>
-    /// The ServiceRequest data transfer object implementation used as a response to ServiceRequest API request. This class decouples are response contracts from our ServiceRequest entity.
+    /// The ServiceRequest data transfer object implementation used as a response to ServiceRequest API request. This class decouples our response contracts from our ServiceRequest entity.
     /// </summary>
     [DataContract]
     public class ServiceRequestDTO

@@ -88,8 +88,9 @@ namespace ServiceRequestManagement.API
                 swaggerOptions.IncludeXmlComments(filePath);
             });
 
-            // TODO: Register Mediatr. Need to use reflection to do this. Don't have one yet.
-
+            // TODO: Register Mediatr.
+            services.AddMediatR(typeof(Application.Commands.CreateServiceRequestCommandHandler).Assembly);
+            
             // Register Mediator behaviors in the order you want them to run in the pipeline.
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
