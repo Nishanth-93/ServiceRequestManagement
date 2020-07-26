@@ -4,12 +4,12 @@ using Microsoft.Extensions.Logging;
 using ServiceRequestManagement.API.Application.Commands;
 using ServiceRequestManagement.API.Application.DTOs;
 using ServiceRequestManagement.API.Application.Extensions;
+using ServiceRequestManagement.API.Application.Queries;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ServiceRequestManagement.API.Controllers
 {
@@ -47,6 +47,24 @@ namespace ServiceRequestManagement.API.Controllers
             var result = await _mediator.Send(request);
 
             return Created(nameof(CreateServiceRequestAsync), result.AsServiceRequestDTO());
+        }
+
+        /// <summary>
+        /// Retrieves all ServiceRequest entities.
+        /// </summary>
+        /// <returns>List of all ServiceRequest entities.</returns>
+        [HttpGet]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public async Task<ActionResult<IEnumerable<ServiceRequestDTO>>> RetrieveAllServiceRequestsAsync()
+        {
+            var result = await _mediator.Send(new QueryAllServiceRequests());
+
+            if (result.Any())
+                return Ok(result
+                    .Select(serviceRequests => serviceRequests.AsServiceRequestDTO()));
+
+            return NoContent();
         }
     }
 }

@@ -1,7 +1,5 @@
-﻿using ServiceRequestManagement.API;
-using ServiceRequestManagement.API.Application.Commands;
+﻿using ServiceRequestManagement.API.Application.Commands;
 using ServiceRequestManagement.API.Application.Extensions;
-using ServiceRequestManagement.Domain.ServiceRequestAggregate;
 using Xunit;
 
 namespace ServiceRequestManagement.UnitTests.Application.Extensions

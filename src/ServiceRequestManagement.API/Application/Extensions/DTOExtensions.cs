@@ -1,9 +1,5 @@
 ﻿using ServiceRequestManagement.API.Application.DTOs;
 using ServiceRequestManagement.Domain.ServiceRequestAggregate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ServiceRequestManagement.API.Application.Extensions
 {
