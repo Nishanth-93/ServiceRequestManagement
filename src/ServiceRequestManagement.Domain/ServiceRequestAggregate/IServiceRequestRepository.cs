@@ -14,5 +14,6 @@ namespace ServiceRequestManagement.Domain.ServiceRequestAggregate
         Task<IEnumerable<ServiceRequest>> RetrieveAllAsync();
         Task<ServiceRequest> RetrieveByIdAsync(Guid id);
         void Update(ServiceRequest serviceRequest);
+        void Delete(ServiceRequest serviceRequest);
     }
 }

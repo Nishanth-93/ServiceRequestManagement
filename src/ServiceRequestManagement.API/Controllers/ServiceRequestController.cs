@@ -128,5 +128,25 @@ namespace ServiceRequestManagement.API.Controllers
                 };
             }
         }
+
+        /// <summary>
+        /// Deletes a single service request by the passed Id.
+        /// </summary>
+        /// <param name="id">The Id of the service request to delete</param>
+        /// <returns>204 code if the service request existed and was deleted; otherwise, 404 code.</returns>
+        [HttpDelete("{id}")]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult> DeleteByIdAsync(Guid id)
+        {
+            var deleted = await _mediator.Send(new DeleteServiceRequestByIdCommand(id));
+
+            if (deleted)
+                // TODO: Ask about this. The criteria states a 201 created response, but for a delete that seems a bit confusing. In the past I've used 200 and 204.
+                // return new ObjectResult(null) { StatusCode = (int)HttpStatusCode.Created };
+                return NoContent();
+
+            return NotFound();
+        }
     }
 }
