@@ -24,6 +24,4 @@ jobs:
       run: dotnet test .\tests\ServiceRequestManagement.UnitTests\ServiceRequestManagement.UnitTests.csproj --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
     - name: Upload Coverage
       run: |
-      curl -s https://codecov.io/bash > codecov
-      chmod +x codecov
-      ./codecov -f "tests/ServiceRequestManagement.UnitTest/coverage.opencover.xml"
+      bash <(curl -s https://codecov.io/bash)
