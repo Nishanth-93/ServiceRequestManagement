@@ -72,5 +72,14 @@ namespace ServiceRequestManagement.Infrastructure.Repositories
         {
             _context.Entry(serviceRequest).State = EntityState.Modified;
         }
+
+        /// <summary>
+        /// Deletes a single service request entity.
+        /// </summary>
+        /// <param name="serviceRequest">The service request entity to delete.</param>
+        public void Delete(ServiceRequest serviceRequest)
+        {
+            _context.ServiceRequests.Remove(serviceRequest);
+        }
     }
 }
