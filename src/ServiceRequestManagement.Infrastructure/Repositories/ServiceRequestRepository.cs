@@ -1,6 +1,9 @@
-﻿using ServiceRequestManagement.Domain.Seeds;
+﻿using Microsoft.EntityFrameworkCore;
+using ServiceRequestManagement.Domain.Seeds;
 using ServiceRequestManagement.Domain.ServiceRequestAggregate;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ServiceRequestManagement.Infrastructure.Repositories
 {
@@ -36,6 +39,17 @@ namespace ServiceRequestManagement.Infrastructure.Repositories
                 .ServiceRequests
                 .Add(serviceRequest)
                 .Entity;
+        }
+
+        /// <summary>
+        /// Retrieves all ServiceRequest entities.
+        /// </summary>
+        /// <returns>List of ServiceRequest entities.</returns>
+        public async Task<IEnumerable<ServiceRequest>> RetrieveAllAsync()
+        {
+            return await _context
+                .ServiceRequests
+                .ToListAsync();
         }
     }
 }
