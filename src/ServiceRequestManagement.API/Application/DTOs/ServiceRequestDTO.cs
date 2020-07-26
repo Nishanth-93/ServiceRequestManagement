@@ -1,6 +1,7 @@
 ﻿using ServiceRequestManagement.Domain.ServiceRequestAggregate;
 using System;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace ServiceRequestManagement.API.Application.DTOs
 {
@@ -32,6 +33,7 @@ namespace ServiceRequestManagement.API.Application.DTOs
         /// The current status of the ServiceRequest.
         /// </summary>
         [DataMember]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public CurrentStatus CurrentStatus { get; set; }
         
         /// <summary>
