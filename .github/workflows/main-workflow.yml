@@ -8,7 +8,7 @@ on:
 jobs:
   Build:
     name: Build and Run Unit-Tests with .Net Core SDK
-    runs-on: ubunutu-latest
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout Branch
       uses: actions/checkout@v1
