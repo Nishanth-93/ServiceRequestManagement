@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1850DD78-00DC-444E-994D-8783ACB73B0F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A69C54AC-3F8F-417D-8E7A-BF8867539C08}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceRequestManagement.API", "src\ServiceRequestManagement.API\ServiceRequestManagement.API.csproj", "{B2F046F2-DFC4-4F4B-B172-FE4F5AB07D0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceRequestManagement.Domain", "src\ServiceRequestManagement.Domain\ServiceRequestManagement.Domain.csproj", "{11A4D4C2-4DF9-4010-A70C-89D2F9FD8445}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceRequestManagement.Infrastructure", "src\ServiceRequestManagement.Infrastructure\ServiceRequestManagement.Infrastructure.csproj", "{3C66E07F-651D-4914-B6D7-5B7CA3187D65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceRequestManagement.UnitTests", "tests\ServiceRequestManagement.UnitTests\ServiceRequestManagement.UnitTests.csproj", "{F8E55852-85CA-408A-B9F5-3FC16C6D0CC5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B2F046F2-DFC4-4F4B-B172-FE4F5AB07D0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2F046F2-DFC4-4F4B-B172-FE4F5AB07D0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2F046F2-DFC4-4F4B-B172-FE4F5AB07D0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2F046F2-DFC4-4F4B-B172-FE4F5AB07D0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11A4D4C2-4DF9-4010-A70C-89D2F9FD8445}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11A4D4C2-4DF9-4010-A70C-89D2F9FD8445}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11A4D4C2-4DF9-4010-A70C-89D2F9FD8445}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11A4D4C2-4DF9-4010-A70C-89D2F9FD8445}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C66E07F-651D-4914-B6D7-5B7CA3187D65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C66E07F-651D-4914-B6D7-5B7CA3187D65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C66E07F-651D-4914-B6D7-5B7CA3187D65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C66E07F-651D-4914-B6D7-5B7CA3187D65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8E55852-85CA-408A-B9F5-3FC16C6D0CC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8E55852-85CA-408A-B9F5-3FC16C6D0CC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8E55852-85CA-408A-B9F5-3FC16C6D0CC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8E55852-85CA-408A-B9F5-3FC16C6D0CC5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B2F046F2-DFC4-4F4B-B172-FE4F5AB07D0C} = {1850DD78-00DC-444E-994D-8783ACB73B0F}
+		{11A4D4C2-4DF9-4010-A70C-89D2F9FD8445} = {1850DD78-00DC-444E-994D-8783ACB73B0F}
+		{3C66E07F-651D-4914-B6D7-5B7CA3187D65} = {1850DD78-00DC-444E-994D-8783ACB73B0F}
+		{F8E55852-85CA-408A-B9F5-3FC16C6D0CC5} = {A69C54AC-3F8F-417D-8E7A-BF8867539C08}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D4BACA16-3FF3-442F-96ED-EE6A86CC2045}
+	EndGlobalSection
+EndGlobal
