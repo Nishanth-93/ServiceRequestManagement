@@ -15,12 +15,12 @@ namespace ServiceRequestManagement.Infrastructure.Repositories
         private readonly ServiceRequestManagementContext _context;
 
         /// <summary>
-        /// The context that our repository will perform transaction against.
+        /// The DbContext.
         /// </summary>
         public IUnitOfWork UnitOfWork { get { return _context; } }
 
         /// <summary>
-        /// The constructor for our ServiceRequestRepository.
+        /// The constructor for the ServiceRequestRepository.
         /// </summary>
         /// <param name="context"></param>
         public ServiceRequestRepository(ServiceRequestManagementContext context)
@@ -29,10 +29,10 @@ namespace ServiceRequestManagement.Infrastructure.Repositories
         }
 
         /// <summary>
-        /// Creates a ServiceRequest entity.
+        /// Creates a single service request entity.
         /// </summary>
-        /// <param name="serviceRequest"></param>
-        /// <returns>Created ServiceRequest entity.</returns>
+        /// <param name="serviceRequest">The service request entity to persist.</param>
+        /// <returns>The persisted service request entity.</returns>
         public ServiceRequest Create(ServiceRequest serviceRequest)
         {
             return _context
@@ -42,9 +42,9 @@ namespace ServiceRequestManagement.Infrastructure.Repositories
         }
 
         /// <summary>
-        /// Retrieves all ServiceRequest entities.
+        /// Retrieves all service request entities.
         /// </summary>
-        /// <returns>List of ServiceRequest entities.</returns>
+        /// <returns>The list of all service request entities.</returns>
         public async Task<IEnumerable<ServiceRequest>> RetrieveAllAsync()
         {
             return await _context
@@ -53,15 +53,24 @@ namespace ServiceRequestManagement.Infrastructure.Repositories
         }
 
         /// <summary>
-        /// Retrieves a single ServiceRequest entity by the expected Id.
+        /// Retrieves a single expected service request entity by the Id.
         /// </summary>
-        /// <param name="id">The expected Id</param>
-        /// <returns>The expected ServiceRequest entity if it exists; otherwise, null</returns>
+        /// <param name="id">The Id of the expected service request entity.</param>
+        /// <returns>The expected service request entity if it exists; otherwise, null</returns>
         public async Task<ServiceRequest> RetrieveByIdAsync(Guid id)
         {
             return await _context
                 .ServiceRequests
                 .FirstOrDefaultAsync(serviceRequest => serviceRequest.Id == id);
+        }
+
+        /// <summary>
+        /// Updates a single service request entity.
+        /// </summary>
+        /// <param name="serviceRequest">The service request entity to update in its new state.</param>
+        public void Update(ServiceRequest serviceRequest)
+        {
+            _context.Entry(serviceRequest).State = EntityState.Modified;
         }
     }
 }
