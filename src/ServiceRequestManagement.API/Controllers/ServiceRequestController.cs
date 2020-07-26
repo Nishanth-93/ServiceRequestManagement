@@ -35,10 +35,10 @@ namespace ServiceRequestManagement.API.Controllers
         }
 
         /// <summary>
-        /// Creates a ServiceRequest entity.
+        /// Creates a service request.
         /// </summary>
         /// <param name="request">The request body with data to create the ServiceRequest entity.</param>
-        /// <returns>The created ServiceRequest entity</returns>
+        /// <returns>200 code with the created ServiceRequestDTO.</returns>
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.Created)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -50,9 +50,9 @@ namespace ServiceRequestManagement.API.Controllers
         }
 
         /// <summary>
-        /// Retrieves all ServiceRequest entities.
+        /// Retrieves all service requests.
         /// </summary>
-        /// <returns>List of all ServiceRequest entities.</returns>
+        /// <returns>200 code with a list of all ServiceRequestDTOs if any exist; otherwise, 204 code.</returns>
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
@@ -65,6 +65,24 @@ namespace ServiceRequestManagement.API.Controllers
                     .Select(serviceRequests => serviceRequests.AsServiceRequestDTO()));
 
             return NoContent();
+        }
+
+        /// <summary>
+        /// Retrieves a single service request by the passed Id.
+        /// </summary>
+        /// <param name="id">The Id of the expected ServiceRequest entity.</param>
+        /// <returns>200 code with the expected ServiceRequestDTO if it exists; otherwise 404 code.</returns>
+        [HttpGet("{id}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<ActionResult<ServiceRequestDTO>> RetrieveServiceRequestByIdAsync(Guid id)
+        {
+            var result = await _mediator.Send(new QueryServiceRequestById(id));
+
+            if (result is null)
+                return NotFound();
+
+            return Ok(result.AsServiceRequestDTO());
         }
     }
 }

@@ -51,5 +51,17 @@ namespace ServiceRequestManagement.Infrastructure.Repositories
                 .ServiceRequests
                 .ToListAsync();
         }
+
+        /// <summary>
+        /// Retrieves a single ServiceRequest entity by the expected Id.
+        /// </summary>
+        /// <param name="id">The expected Id</param>
+        /// <returns>The expected ServiceRequest entity if it exists; otherwise, null</returns>
+        public async Task<ServiceRequest> RetrieveByIdAsync(Guid id)
+        {
+            return await _context
+                .ServiceRequests
+                .FirstOrDefaultAsync(serviceRequest => serviceRequest.Id == id);
+        }
     }
 }

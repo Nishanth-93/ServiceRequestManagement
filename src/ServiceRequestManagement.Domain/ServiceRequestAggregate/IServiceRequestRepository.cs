@@ -1,4 +1,5 @@
 ﻿using ServiceRequestManagement.Domain.Seeds;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,5 +12,6 @@ namespace ServiceRequestManagement.Domain.ServiceRequestAggregate
     {
         ServiceRequest Create(ServiceRequest serviceRequest);
         Task<IEnumerable<ServiceRequest>> RetrieveAllAsync();
+        Task<ServiceRequest> RetrieveByIdAsync(Guid id);
     }
 }
