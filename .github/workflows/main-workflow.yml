@@ -22,7 +22,7 @@ jobs:
         dotnet tool install --global dotnet-ef
         dotnet tool restore
     - name: Update Database
-      run: dotnet ef database update --project .\src\ServiceRequestManagement.Infrastructure\ServiceRequestManagement.Infrastructure.csproj --startup-project .\src\ServiceRequestManagement.API\ --connection ${{ secrets.CONNECTION_STRING }}
+      run: dotnet ef database update --project ./src/ServiceRequestManagement.Infrastructure/ServiceRequestManagement.Infrastructure.csproj --startup-project ./src/ServiceRequestManagement.API/ --connection ${{ secrets.CONNECTION_STRING }}
   # Build:
   #   name: Build and Run Unit-Tests with .Net Core SDK
   #   runs-on: ubuntu-latest
