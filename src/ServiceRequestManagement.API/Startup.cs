@@ -1,15 +1,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Azure.KeyVault;
-using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Serilog;
 using ServiceRequestManagement.API.Application.Behaviors;
 using ServiceRequestManagement.Domain.ServiceRequestAggregate;
 using ServiceRequestManagement.Infrastructure;
@@ -25,53 +21,12 @@ namespace ServiceRequestManagement.API
     public class Startup
     {
         /// <summary>
-        /// The namespace of the application.
+        /// Sets the application configuration.
         /// </summary>
-        public static readonly string Namespace = typeof(Program).Namespace;
-
-        /// <summary>
-        /// The application name.
-        /// </summary>
-        public static readonly string AppName = Namespace.Substring(Namespace.LastIndexOf('.', Namespace.LastIndexOf('.') - 1) + 1);
-
-        /// <summary>
-        /// Constructor fot the Startup class.
-        /// </summary>
-        /// <param name="environment"></param>
-        public Startup(IWebHostEnvironment environment)
+        /// <param name="configuration">The application configuration.</param>
+        public Startup(IConfiguration configuration)
         {
-            var configBuilder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddEnvironmentVariables();
-
-            var builtConfig = configBuilder.Build();
-
-            
-
-            if (builtConfig.GetValue<bool>("UseKeyVault", false))
-            {
-                var azureServiceTokenProvider = new AzureServiceTokenProvider();
-                
-                var keyVaultClient = new KeyVaultClient(
-                    new KeyVaultClient.AuthenticationCallback(
-                            azureServiceTokenProvider.KeyVaultTokenCallback));
-
-                configBuilder.AddAzureKeyVault(
-                    $"https://{builtConfig["KeyVaultName"]}.vault.azure.net/",
-                    keyVaultClient,
-                    new DefaultKeyVaultSecretManager()); ;
-            }
-
-            Configuration = configBuilder.Build();
-
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Verbose()
-                .Enrich.WithProperty("ApplicationContext", AppName)
-                .Enrich.FromLogContext()
-                .WriteTo.Console()
-                .ReadFrom.Configuration(Configuration)
-                .CreateLogger();
+            Configuration = configuration;
         }
 
         /// <summary>
@@ -85,46 +40,12 @@ namespace ServiceRequestManagement.API
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-
-            services.AddCors(corsOptions => corsOptions.AddPolicy("AllowAll", policyBuilder =>
-            {
-                policyBuilder
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowAnyOrigin();
-            }));
-
-            // Add Swagger
-            services.AddSwaggerGen(swaggerOptions =>
-            {
-                swaggerOptions.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "Cohesion Service Request Management RESTful API.",
-                    Version = "v1",
-                    Description = "Documentation for RESTful API for performing CRUD operations against a ServiceRequest entity."
-                });
-
-                var filePath = Path.Combine(AppContext.BaseDirectory, "ServiceRequestManagement.xml");
-                
-                swaggerOptions.IncludeXmlComments(filePath);
-            });
-
-            // TODO: Register Mediatr.
-            services.AddMediatR(typeof(Application.Commands.CreateServiceRequestCommandHandler).Assembly);
-            
-            // Register Mediator behaviors in the order you want them to run in the pipeline.
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
-
-            // Register the Db context.
-            services.AddDbContext<ServiceRequestManagementContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("ServiceRequestManagement"));
-            });
-
-            // Register the repository
-            services.AddScoped<IServiceRequestRepository, ServiceRequestRepository>();
+            services
+                .AddCustomControllers()
+                .AddCustomDbContext(Configuration)
+                .AddCustomSwagger()
+                .AddCustomMediatR()
+                .AddCustomRepositories();            
         }
 
         /// <summary>
@@ -137,16 +58,6 @@ namespace ServiceRequestManagement.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-
-            using (var serviceScope = app.ApplicationServices
-            .GetRequiredService<IServiceScopeFactory>()
-            .CreateScope())
-            {
-                using (var context = serviceScope.ServiceProvider.GetService<ServiceRequestManagementContext>())
-                {
-                    context.Database.Migrate();
-                }
             }
 
             app.UseHttpsRedirection();
@@ -166,6 +77,101 @@ namespace ServiceRequestManagement.API
             {
                 endpoints.MapControllers();
             });
+        }
+    }
+
+    /// <summary>
+    /// Custom extensions for the IServiceCollection interface.
+    /// </summary>
+    static class ServiceCollectionExtensions
+    {
+        /// <summary>
+        /// Adds customized services for controllers.
+        /// </summary>
+        /// <param name="services">The IServiceCollection this method is extending.</param>
+        /// <returns>The IServiceCollection this method is extending.</returns>
+        public static IServiceCollection AddCustomControllers(this IServiceCollection services)
+        {
+            services.AddControllers();
+
+            services.AddCors(corsOptions => 
+            {
+                corsOptions.AddPolicy("AllowAll", policyBuilder =>
+                    policyBuilder
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowAnyOrigin());
+            });
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds customized Db context for services.
+        /// </summary>
+        /// <param name="services">The IServiceCollection this method is extending.</param>
+        /// <param name="configuration">The application configuration.</param>
+        /// <returns>The IServiceCollection this method is extending.</returns>
+        public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
+        {
+            // Register the Db context.
+            services.AddDbContext<ServiceRequestManagementContext>(options =>
+            {
+                options.UseSqlServer(configuration.GetConnectionString("ServiceRequestManagement"));
+            });
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds customized Swagger for services.
+        /// </summary>
+        /// <param name="services">The IServiceCollection this method is extending.</param>
+        /// <returns>The IServiceCollection this method is extending.</returns>
+        public static IServiceCollection AddCustomSwagger(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(swaggerOptions =>
+            {
+                swaggerOptions.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Cohesion Service Request Management RESTful API.",
+                    Version = "v1",
+                    Description = "Documentation for RESTful API for performing CRUD operations against a ServiceRequest entity."
+                });
+
+                var filePath = Path.Combine(AppContext.BaseDirectory, "ServiceRequestManagement.xml");
+                swaggerOptions.IncludeXmlComments(filePath);
+            });
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds customized MediatR for services and adds pipeline behaviors.
+        /// </summary>
+        /// <param name="services">.</param>
+        /// <returns>The IServiceCollection this method is extending.</returns>
+        public static IServiceCollection AddCustomMediatR(this IServiceCollection services)
+        {
+            services.AddMediatR(typeof(Application.Commands.CreateServiceRequestCommandHandler).Assembly);
+
+            // Register pipeline behaviors in the order you want them to run in the pipeline.
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds custom repositories for services.
+        /// </summary>
+        /// <param name="services">The IServiceCollection this method is extending</param>
+        /// <returns>The IServiceCollection this method is extending</returns>
+        public static IServiceCollection AddCustomRepositories(this IServiceCollection services)
+        {
+            services.AddScoped<IServiceRequestRepository, ServiceRequestRepository>();
+
+            return services;
         }
     }
 }
