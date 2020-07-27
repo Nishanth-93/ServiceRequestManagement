@@ -8,7 +8,7 @@ on:
 jobs:
   Deploy:
     name: Deploy Application to Production
-    needs: Dockerize
+    # needs: Dockerize
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Branch
