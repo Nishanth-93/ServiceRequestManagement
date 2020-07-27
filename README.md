@@ -32,7 +32,7 @@ This API was developed with domain driven design ([DDD](https://martinfowler.com
 
 - [.Net Core 3.1](https://docs.microsoft.com/en-us/dotnet/core/whats-new/dotnet-core-3-1)
 - [.Net Standard 2.1](https://devblogs.microsoft.com/dotnet/announcing-net-standard-2-1/)
-- [MediatR](https://github.com/jbogard/MediatR] *Personally one of my favorite NuGet package)
+- [MediatR](https://github.com/jbogard/MediatR) *Personally one of my favorite NuGet package.
 - [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/)
 - [Swashbuckle](https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-3.1&tabs=visual-studio)
 - [xUnit](https://xunit.github.io/)
