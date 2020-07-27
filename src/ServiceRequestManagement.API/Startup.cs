@@ -1,8 +1,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Azure.KeyVault;
+using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
@@ -37,11 +40,24 @@ namespace ServiceRequestManagement.API
         /// <param name="environment"></param>
         public Startup(IWebHostEnvironment environment)
         {
-            Configuration = new ConfigurationBuilder()
+            var configBuilder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddEnvironmentVariables()
-                .Build();
+                .AddEnvironmentVariables();
+
+            var builtConfig = configBuilder.Build();
+
+            var azureServiceTokenProvider = new AzureServiceTokenProvider();
+            var keyVaultClient = new KeyVaultClient(
+                new KeyVaultClient.AuthenticationCallback(
+                        azureServiceTokenProvider.KeyVaultTokenCallback));
+
+            configBuilder.AddAzureKeyVault(
+                    $"https://{builtConfig["KeyVaultName"]}.vault.azure.net/",
+                    keyVaultClient,
+                    new DefaultKeyVaultSecretManager());
+
+            Configuration = configBuilder.Build();
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Verbose()
@@ -98,7 +114,7 @@ namespace ServiceRequestManagement.API
             // Register the Db context.
             services.AddDbContext<ServiceRequestManagementContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(Configuration.GetConnectionString("ServiceRequestManagement"));
             });
 
             // Register the repository
@@ -115,6 +131,16 @@ namespace ServiceRequestManagement.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+
+            using (var serviceScope = app.ApplicationServices
+            .GetRequiredService<IServiceScopeFactory>()
+            .CreateScope())
+            {
+                using (var context = serviceScope.ServiceProvider.GetService<ServiceRequestManagementContext>())
+                {
+                    context.Database.Migrate();
+                }
             }
 
             app.UseHttpsRedirection();
