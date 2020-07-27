@@ -6,48 +6,48 @@ on:
       - main
 
 jobs:
-  Build:
-    name: Build and Run Unit-Tests with .Net Core SDK
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout Branch
-      uses: actions/checkout@v1
-    - name: Install .Net Core SDK
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '3.1.x'
-    - name: Restore
-      run: dotnet restore ./ServiceRequestManagement.sln
-    - name: Build
-      run: dotnet build ./ServiceRequestManagement.sln --configuration Release --no-restore
-    - name: Test
-      run: dotnet test ./tests/ServiceRequestManagement.UnitTests/ServiceRequestManagement.UnitTests.csproj --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Exclude=\"[*]ServiceRequestManagement.Infrastructure.*,[*]*Startup,[*]*Program,[*]ServiceRequestManagement.API.Controllers.*\"
-    - name: Upload Coverage
-      run: bash <(curl -s https://codecov.io/bash) -f tests/ServiceRequestManagement.UnitTests/coverage.opencover.xml
+  # Build:
+  #   name: Build and Run Unit-Tests with .Net Core SDK
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Checkout Branch
+  #     uses: actions/checkout@v1
+  #   - name: Install .Net Core SDK
+  #     uses: actions/setup-dotnet@v1
+  #     with:
+  #       dotnet-version: '3.1.x'
+  #   - name: Restore
+  #     run: dotnet restore ./ServiceRequestManagement.sln
+  #   - name: Build
+  #     run: dotnet build ./ServiceRequestManagement.sln --configuration Release --no-restore
+  #   - name: Test
+  #     run: dotnet test ./tests/ServiceRequestManagement.UnitTests/ServiceRequestManagement.UnitTests.csproj --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Exclude=\"[*]ServiceRequestManagement.Infrastructure.*,[*]*Startup,[*]*Program,[*]ServiceRequestManagement.API.Controllers.*\"
+  #   - name: Upload Coverage
+  #     run: bash <(curl -s https://codecov.io/bash) -f tests/ServiceRequestManagement.UnitTests/coverage.opencover.xml
 
-  Dockerize:
-    name: Build and Deploy Docker Images to ACR
-    needs: Build
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout Branch
-      uses: actions/checkout@v2
-    - name: Docker Login
-      uses: azure/docker-login@v1
-      with:
-        login-server: ${{ secrets.CONTAINER_REGISTRY }}
-        username: ${{ secrets.REGISTRY_USERNAME }}
-        password: ${{ secrets.REGISTRY_PASSWORD }}
-    - name: Build Images
-      run: docker-compose --no-ansi build
-    - name: Tag Images
-      run: |
-        docker tag servicerequestmanagement.api ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:$GITHUB_SHA 
-        docker tag servicerequestmanagement.api ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:latest
-    - name: Push Image to ACR
-      run: |
-        docker push ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:$GITHUB_SHA
-        docker push ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:latest
+  # Dockerize:
+  #   name: Build and Deploy Docker Images to ACR
+  #   needs: Build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Checkout Branch
+  #     uses: actions/checkout@v2
+  #   - name: Docker Login
+  #     uses: azure/docker-login@v1
+  #     with:
+  #       login-server: ${{ secrets.CONTAINER_REGISTRY }}
+  #       username: ${{ secrets.REGISTRY_USERNAME }}
+  #       password: ${{ secrets.REGISTRY_PASSWORD }}
+  #   - name: Build Images
+  #     run: docker-compose --no-ansi build
+  #   - name: Tag Images
+  #     run: |
+  #       docker tag servicerequestmanagement.api ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:$GITHUB_SHA 
+  #       docker tag servicerequestmanagement.api ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:latest
+  #   - name: Push Image to ACR
+  #     run: |
+  #       docker push ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:$GITHUB_SHA
+  #       docker push ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:latest
   
   Deploy:
     name: Deploy Application to Production
@@ -65,4 +65,4 @@ jobs:
         dotnet tool install --global dotnet-ef
         dotnet tool restore
     - name: Update Database
-      run: dotnet ef database update --connection ${{ secrets.CONNECTION_STRING }}
+      run: dotnet ef database update --project .\src\ServiceRequestManagement.Infrastructure\ServiceRequestManagement.Infrastructure.csproj --startup-project .\src\ServiceRequestManagement.API\ --connection ${{ secrets.CONNECTION_STRING }}
