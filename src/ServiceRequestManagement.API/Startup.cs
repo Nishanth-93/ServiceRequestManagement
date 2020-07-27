@@ -49,7 +49,7 @@ namespace ServiceRequestManagement.API
 
             
 
-            if (builtConfig.GetValue<bool>("UseVault", false))
+            if (builtConfig.GetValue<bool>("UseKeyVault", false))
             {
                 var azureServiceTokenProvider = new AzureServiceTokenProvider();
                 
