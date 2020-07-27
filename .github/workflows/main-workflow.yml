@@ -61,7 +61,7 @@ jobs:
       with:
         dotnet-version: '3.1.x'
     - name: Install EF Core Tools
-      uses: |
+      run: |
         dotnet tool install --global dotnet-ef
         dotnet tool restore
     - name: Update Database
