@@ -12,7 +12,7 @@
 # Introduction
 
 [![codecov](https://codecov.io/gh/aaron-jaeger/ServiceRequestManagement/branch/main/graph/badge.svg)](https://codecov.io/gh/aaron-jaeger/ServiceRequestManagement)
-[![Main Workflow](https://github.com/aaron-jaeger/ServiceRequestManagement/workflows/Main%20Workflow/badge.svg)]
+![Main Workflow](https://github.com/aaron-jaeger/ServiceRequestManagement/workflows/Main%20Workflow/badge.svg)
 
 A simple API that provides functionality to improve tenant experience in a building while improving communication between building staff and tenants.
 
@@ -39,7 +39,7 @@ This API was developed with domain driven design ([DDD](https://martinfowler.com
 - [Serilog](https://serilog.net/)
 - [Coverlet](https://github.com/coverlet-coverage/coverlet)
 - [Codecov.io](https://codecov.io/gh/aaron-jaeger/ServiceRequestManagement)
-- [Azure Web Apps](https://docs.microsoft.com/en-us/azure/app-service/overview#:~:text=Azure%20App%20Service%20is%20a%20service%20for%20hosting,ru[)%20and%20scale%20with%20ease%20on%20Windows-based%20environments.)
+- [Azure Web Apps](https://azure.microsoft.com/en-us/services/app-service/web/)
 - [Azure Container Registry](https://azure.microsoft.com/en-us/services/container-registry/)
 - [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/)
 - [Azure SQL Database](https://azure.microsoft.com/en-us/services/sql-database/)
