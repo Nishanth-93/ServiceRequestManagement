@@ -17,7 +17,7 @@ jobs:
       with:
         dotnet-version: '3.1.x'
     - name: Restore
-      run: dotnet restore
+      run: dotnet restore ./ServiceRequestManagement.sln
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Test
@@ -40,8 +40,8 @@ jobs:
         password: ${{ secrets.REGISTRY_PASSWORD }}
     - name: Build and Tag Images
       run: |
-        docker build -t ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanager.api:$GITHUB_SHA -t ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanager.api:latest .
+        docker build -t ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:$GITHUB_SHA -t ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:latest .
     - name: Push Image to ACR
       run: |
-        docker push ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanager.api:$GITHUB_SHA
-        docker push ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanager.api:latest
+        docker push ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:$GITHUB_SHA
+        docker push ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:latest
