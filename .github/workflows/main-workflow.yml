@@ -21,7 +21,7 @@ jobs:
     - name: Build
       run: dotnet build ./ServiceRequestManagement.sln --configuration Release --no-restore
     - name: Test
-      run: dotnet test ./tests/ServiceRequestManagement.UnitTests/ServiceRequestManagement.UnitTests.csproj --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Exclude=\"[*]ServiceRequestManagement.Infrastructure.*,[*]*Startup,[*]*Program,[*]ServiceRequestManagement.API.Controllers.*,[*]ServiceRequestManagement.API.Application.Behaviors.*\"
+      run: dotnet test ./tests/ServiceRequestManagement.UnitTests/ServiceRequestManagement.UnitTests.csproj --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Exclude=\"[*]ServiceRequestManagement.Infrastructure.*,[*]*Startup,[*]*Program,[*]ServiceRequestManagement.API.Controllers.*,[*]ServiceRequestManagement.API.Application.Behaviors.*,[*]*ServiceCollectionExtensions,[*]*WebHostExtensions\"
     - name: Upload Coverage
       run: bash <(curl -s https://codecov.io/bash) -f tests/ServiceRequestManagement.UnitTests/coverage.opencover.xml
 
