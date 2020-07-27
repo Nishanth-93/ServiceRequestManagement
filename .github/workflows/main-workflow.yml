@@ -39,7 +39,7 @@ jobs:
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
     - name: Build Images
-      run: docker-compose --no-ansi build .
+      run: docker-compose --no-ansi build
     - name: Tag Images
       run: |
         docker tag servicerequestmanagement.api ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:$GITHUB_SHA 
