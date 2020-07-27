@@ -6,6 +6,23 @@ on:
       - main
 
 jobs:
+  Deploy:
+    name: Deploy Application to Production
+    needs: Dockerize
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Branch
+      uses: actions/checkout@v2
+    - name: Install .Net Core SDK
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.x'
+    - name: Install EF Core Tools
+      run: |
+        dotnet tool install --global dotnet-ef
+        dotnet tool restore
+    - name: Update Database
+      run: dotnet ef database update --project .\src\ServiceRequestManagement.Infrastructure\ServiceRequestManagement.Infrastructure.csproj --startup-project .\src\ServiceRequestManagement.API\ --connection ${{ secrets.CONNECTION_STRING }}
   # Build:
   #   name: Build and Run Unit-Tests with .Net Core SDK
   #   runs-on: ubuntu-latest
@@ -49,20 +66,4 @@ jobs:
   #       docker push ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:$GITHUB_SHA
   #       docker push ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:latest
   
-  Deploy:
-    name: Deploy Application to Production
-    needs: Dockerize
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout Branch
-      uses: actions/checkout@v2
-    - name: Install .Net Core SDK
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '3.1.x'
-    - name: Install EF Core Tools
-      run: |
-        dotnet tool install --global dotnet-ef
-        dotnet tool restore
-    - name: Update Database
-      run: dotnet ef database update --project .\src\ServiceRequestManagement.Infrastructure\ServiceRequestManagement.Infrastructure.csproj --startup-project .\src\ServiceRequestManagement.API\ --connection ${{ secrets.CONNECTION_STRING }}
+  
