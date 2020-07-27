@@ -19,7 +19,7 @@ jobs:
     - name: Restore
       run: dotnet restore ./ServiceRequestManagement.sln
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build ./ServiceRequestManagement.sln --configuration Release --no-restore
     - name: Test
       run: dotnet test ./tests/ServiceRequestManagement.UnitTests/ServiceRequestManagement.UnitTests.csproj --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Exclude=\"[*]ServiceRequestManagement.Infrastructure.*,[*]*Startup,[*]*Program,[*]ServiceRequestManagement.API.Controllers.*\"
     - name: Upload Coverage
