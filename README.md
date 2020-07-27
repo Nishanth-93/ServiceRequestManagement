@@ -28,7 +28,7 @@ This API allows tenants and building staff to create, read, update, and delete s
 
 This API was developed with domain driven design ([DDD](https://martinfowler.com/tags/domain%20driven%20design.html)), [CQRS](https://www.martinfowler.com/bliki/CQRS.html) and clean architecture as the core principles. 
 
-## Built Using
+## Technologies
 
 - [.Net Core 3.1](https://docs.microsoft.com/en-us/dotnet/core/whats-new/dotnet-core-3-1)
 - [.Net Standard 2.1](https://devblogs.microsoft.com/dotnet/announcing-net-standard-2-1/)
