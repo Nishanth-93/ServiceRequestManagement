@@ -33,7 +33,7 @@ namespace ServiceRequestManagement.API.Application.Behaviors
         /// <returns></returns>
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            _logger.LogInformation("Handling command {CommandName} ({@Command)}", request.GetGenericTypeName(), request);
+            _logger.LogInformation("Handling command {CommandName} ({@Command})", request.GetGenericTypeName(), request);
 
             var response = await next();
 
