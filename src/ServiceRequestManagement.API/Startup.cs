@@ -47,15 +47,21 @@ namespace ServiceRequestManagement.API
 
             var builtConfig = configBuilder.Build();
 
-            var azureServiceTokenProvider = new AzureServiceTokenProvider();
-            var keyVaultClient = new KeyVaultClient(
-                new KeyVaultClient.AuthenticationCallback(
-                        azureServiceTokenProvider.KeyVaultTokenCallback));
+            
 
-            configBuilder.AddAzureKeyVault(
+            if (builtConfig.GetValue<bool>("UseVault", false))
+            {
+                var azureServiceTokenProvider = new AzureServiceTokenProvider();
+                
+                var keyVaultClient = new KeyVaultClient(
+                    new KeyVaultClient.AuthenticationCallback(
+                            azureServiceTokenProvider.KeyVaultTokenCallback));
+
+                configBuilder.AddAzureKeyVault(
                     $"https://{builtConfig["KeyVaultName"]}.vault.azure.net/",
                     keyVaultClient,
-                    new DefaultKeyVaultSecretManager());
+                    new DefaultKeyVaultSecretManager()); ;
+            }
 
             Configuration = configBuilder.Build();
 
@@ -132,8 +138,6 @@ namespace ServiceRequestManagement.API
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseDeveloperExceptionPage();
-
 
             using (var serviceScope = app.ApplicationServices
             .GetRequiredService<IServiceScopeFactory>()
