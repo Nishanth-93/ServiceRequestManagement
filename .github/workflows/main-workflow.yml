@@ -38,8 +38,12 @@ jobs:
         login-server: ${{ secrets.CONTAINER_REGISTRY }}
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
-    - name: Build and Tag Images
-      run: docker-compose --no-ansi build -t ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:$GITHUB_SHA -t ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:latest .
+    - name: Build Images
+      run: docker-compose --no-ansi build .
+    - name: Tag Images
+      run: |
+        docker tag servicerequestmanagement.api ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:$GITHUB_SHA 
+        docker tag servicerequestmanagement.api ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:latest
     - name: Push Image to ACR
       run: |
         docker push ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:$GITHUB_SHA
