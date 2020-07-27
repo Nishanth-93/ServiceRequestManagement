@@ -215,23 +215,74 @@ namespace ServiceRequestManagement.UnitTests.Domain.Seeds
             // Assert
             Assert.True(actual);
         }
-    }
 
-    public class TestEntity : Entity
-    {
-        public TestEntity()
+        [Fact]
+        public void Given_TestEntity_With_Id_When_CallingGetHashTwiceCode_Returns_SameValue()
         {
-            Id = default;
+            // Arrange
+            var target = new TestEntity(Guid.NewGuid());
+
+            // Act
+            var actualHash = target.GetHashCode();
+
+            // Assert
+            Assert.Equal(target.GetHashCode(), actualHash);
         }
 
-        public TestEntity(Guid id)
+        [Fact]
+        public void Given_TransientTestEntity_When_CallingGetHashTwiceCode_Returns_SameValue()
         {
-            Id = id;
-        }
-    }
+            // Arrange
+            var target = new TestEntity();
 
-    public class TestNotification : INotification
-    {
-        public Guid Id { get; set; }
+            // Act
+            var actualHash = target.GetHashCode();
+
+            // Assert
+            Assert.Equal(target.GetHashCode(), actualHash);
+        }
+
+        [Fact]
+        public void Given_EntitiesOfDifferentTypes_When_ComparingEquality_Then_ReturnsFalse()
+        {
+            // Arrance
+            var leftEntity = new TestEntity();
+            var rightEntity = new TestEntity2();
+
+            // Act
+            var actual = leftEntity.Equals(rightEntity);
+
+            // Assert
+            Assert.False(actual);
+        }
+
+        public class TestEntity : Entity
+        {
+            public TestEntity()
+            {
+            }
+
+            public TestEntity(Guid id)
+            {
+                Id = id;
+            }
+        }
+
+        public class TestEntity2 : Entity
+        {
+            public TestEntity2()
+            {
+            }
+
+            public TestEntity2(Guid id)
+            {
+                Id = id;
+            }
+        }
+
+        public class TestNotification : INotification
+        {
+            public Guid Id { get; set; }
+        }
     }
 }

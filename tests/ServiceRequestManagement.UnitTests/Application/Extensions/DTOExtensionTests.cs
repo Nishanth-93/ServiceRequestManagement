@@ -16,6 +16,7 @@ namespace ServiceRequestManagement.UnitTests.Application.Extensions
             var actual = target.AsServiceRequestDTO();
 
             // Assert
+            Assert.Equal(target.Id, actual.Id);
             Assert.Equal(target.CurrentStatus, actual.CurrentStatus);
             Assert.Equal(target.GetBuildingCode, actual.BuildingCode);
             Assert.Equal(target.GetDescription, actual.Description);

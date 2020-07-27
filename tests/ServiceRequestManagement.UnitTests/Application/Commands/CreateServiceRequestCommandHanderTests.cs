@@ -49,5 +49,17 @@ namespace ServiceRequestManagement.UnitTests.Application.Commands
             Assert.InRange(actual.GetCreatedDate, DateTime.UtcNow.AddSeconds(-30), DateTime.UtcNow);
             Assert.Null(actual.GetLastModifiedBy);
         }
+
+        [Fact]
+        public void Given_NullLogger_When_ConstructingCreateServiceCommandHandler_Then_ThrowsArgumentNullException()
+        {   // Arrange/ Act/ Assert
+            Assert.Throws<ArgumentNullException>(() => new CreateServiceRequestCommandHandler(null, _serviceRequestRepository.Object));
+        }
+
+        [Fact]
+        public void Given_NullRepo_When_ConstructingCreateServiceCommandHandler_Then_ThrowsArgumentNullException()
+        {   // Arrange/ Act/ Assert
+            Assert.Throws<ArgumentNullException>(() => new CreateServiceRequestCommandHandler(_logger.Object, null));
+        }
     }
 }

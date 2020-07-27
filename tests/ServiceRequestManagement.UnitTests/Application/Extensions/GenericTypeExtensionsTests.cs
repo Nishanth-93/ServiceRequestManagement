@@ -1,5 +1,8 @@
 ﻿using ServiceRequestManagement.API.Application.DTOs;
 using ServiceRequestManagement.API.Application.Extensions;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
 using Xunit;
 
 namespace ServiceRequestManagement.UnitTests.Application.Extensions
@@ -23,6 +26,19 @@ namespace ServiceRequestManagement.UnitTests.Application.Extensions
 
             // Assert
             Assert.Equal("PostCreateServiceRequestDTO", actual);
+        }
+
+        [Fact]
+        public void Given_GenericTypedClass_When_CallingGetGenericTypeNameExtension_Then_ReturnsTypeName()
+        {
+            // Arrange
+            var target = new List<object> { 45 };
+
+            // Act
+            var actual = target.GetGenericTypeName();
+
+            // Assert
+            Assert.Equal("List<Object>", actual);
         }
     }
 }

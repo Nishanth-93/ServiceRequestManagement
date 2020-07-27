@@ -58,5 +58,17 @@ namespace ServiceRequestManagement.UnitTests.Application.Queries
             // Assert
             Assert.Null(actual);
         }
+
+        [Fact]
+        public void Given_NullLogger_When_ConstructingQueryServiceRequestByIdHandler_Then_ThrowsArgumentNullException()
+        {   // Arrange/ Act/ Assert
+            Assert.Throws<ArgumentNullException>(() => new QueryServiceRequestByIdHandler(null, _serviceRequestRepository.Object));
+        }
+
+        [Fact]
+        public void Given_NullRepo_When_ConstructingQueryServiceRequestByIdHandler_Then_ThrowsArgumentNullException()
+        {   // Arrange/ Act/ Assert
+            Assert.Throws<ArgumentNullException>(() => new QueryServiceRequestByIdHandler(_logger.Object, null));
+        }
     }
 }

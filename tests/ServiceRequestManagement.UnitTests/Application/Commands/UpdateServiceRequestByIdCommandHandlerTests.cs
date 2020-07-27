@@ -112,5 +112,17 @@ namespace ServiceRequestManagement.UnitTests.Application.Commands
             // Act /Assert
             await Assert.ThrowsAsync<ArgumentException>(() => target.Handle(updateServiceRequestCommand, default));
         }
+
+        [Fact]
+        public void Given_NullLogger_When_ConstructingUpdateServiceRequestByIdCommandHandler_Then_ThrowsArgumentNullException()
+        {   // Arrange/ Act/ Assert
+            Assert.Throws<ArgumentNullException>(() => new UpdateServiceRequestByIdCommandHandler(null, _serviceRequestRepository.Object));
+        }
+
+        [Fact]
+        public void Given_NullRepo_When_ConstructingUpdateServiceRequestByIdCommandHandler_Then_ThrowsArgumentNullException()
+        {   // Arrange/ Act/ Assert
+            Assert.Throws<ArgumentNullException>(() => new UpdateServiceRequestByIdCommandHandler(_logger.Object, null));
+        }
     }
 }

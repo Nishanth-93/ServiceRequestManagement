@@ -2,6 +2,7 @@
 using Moq;
 using ServiceRequestManagement.API.Application.Queries;
 using ServiceRequestManagement.Domain.ServiceRequestAggregate;
+using System;
 using System.Collections.Generic;
 using Xunit;
 
@@ -65,6 +66,18 @@ namespace ServiceRequestManagement.UnitTests.Application.Queries
 
             // Assert
             Assert.Empty(actual);
+        }
+
+        [Fact]
+        public void Given_NullLogger_When_ConstructingQueryAllServiceRequestsHandler_Then_ThrowsArgumentNullException()
+        {   // Arrange/ Act/ Assert
+            Assert.Throws<ArgumentNullException>(() => new QueryAllServiceRequestsHandler(null, _serviceRequestRepository.Object));
+        }
+
+        [Fact]
+        public void Given_NullRepo_When_ConstructingQueryAllServiceRequestsHandler_Then_ThrowsArgumentNullException()
+        {   // Arrange/ Act/ Assert
+            Assert.Throws<ArgumentNullException>(() => new QueryAllServiceRequestsHandler(_logger.Object, null));
         }
     }
 }

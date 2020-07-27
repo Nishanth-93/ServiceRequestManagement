@@ -57,5 +57,17 @@ namespace ServiceRequestManagement.UnitTests.Application.Commands
             // Assert
             Assert.False(actual);
         }
+
+        [Fact]
+        public void Given_NullLogger_When_ConstructingDeleteServiceRequestByIdCommandHandler_Then_ThrowsArgumentNullException()
+        {   // Arrange/ Act/ Assert
+            Assert.Throws<ArgumentNullException>(() => new DeleteServiceRequestByIdCommandHandler(null, _serviceRequestRepository.Object));
+        }
+
+        [Fact]
+        public void Given_NullRepo_When_ConstructingDeleteServiceRequestByIdCommandHandler_Then_ThrowsArgumentNullException()
+        {   // Arrange/ Act/ Assert
+            Assert.Throws<ArgumentNullException>(() => new DeleteServiceRequestByIdCommandHandler(_logger.Object, null));
+        }
     }
 }
