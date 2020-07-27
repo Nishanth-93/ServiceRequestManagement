@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  servicerequestmanagement.api:
+    image: servicerequestmanagement.api
+    build:
+      context: .
+      dockerfile: src/ServiceRequestManagement.API/Dockerfile

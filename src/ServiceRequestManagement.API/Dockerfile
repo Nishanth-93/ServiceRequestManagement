@@ -7,10 +7,12 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["ServiceRequestManagement.API/ServiceRequestManagement.API.csproj", "ServiceRequestManagement.API/"]
-RUN dotnet restore "ServiceRequestManagement.API/ServiceRequestManagement.API.csproj"
+COPY ["src/ServiceRequestManagement.API/ServiceRequestManagement.API.csproj", "src/ServiceRequestManagement.API/"]
+COPY ["src/ServiceRequestManagement.Infrastructure/ServiceRequestManagement.Infrastructure.csproj", "src/ServiceRequestManagement.Infrastructure/"]
+COPY ["src/ServiceRequestManagement.Domain/ServiceRequestManagement.Domain.csproj", "src/ServiceRequestManagement.Domain/"]
+RUN dotnet restore "src/ServiceRequestManagement.API/ServiceRequestManagement.API.csproj"
 COPY . .
-WORKDIR "/src/ServiceRequestManagement.API"
+WORKDIR "/src/src/ServiceRequestManagement.API"
 RUN dotnet build "ServiceRequestManagement.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
