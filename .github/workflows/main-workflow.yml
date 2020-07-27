@@ -50,7 +50,7 @@ jobs:
         docker push ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:latest
   
   Deploy:
-    name: Deploy Docker Image
+    name: Deploy to Production
     needs: Dockerize
     runs-on: ubuntu-latest
     steps:

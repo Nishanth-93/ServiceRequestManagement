@@ -132,6 +132,8 @@ namespace ServiceRequestManagement.API
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseDeveloperExceptionPage();
+
 
             using (var serviceScope = app.ApplicationServices
             .GetRequiredService<IServiceScopeFactory>()
