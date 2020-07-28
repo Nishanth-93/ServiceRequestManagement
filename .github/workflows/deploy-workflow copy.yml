@@ -10,7 +10,6 @@ on:
 jobs:
   Dockerize:
     name: Build and Deploy Docker Images to ACR
-    needs: Build
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Branch
@@ -28,9 +27,7 @@ jobs:
         docker tag servicerequestmanagement.api ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:$GITHUB_SHA 
         docker tag servicerequestmanagement.api ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:latest
     - name: Push Image to ACR
-      run: |
-        docker push ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:$GITHUB_SHA
-        docker push ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api:latest
+      run: docker push ${{ secrets.CONTAINER_REGISTRY }}/servicerequestmanagement.api
   
   Deploy:
     name: Deploy to Production
