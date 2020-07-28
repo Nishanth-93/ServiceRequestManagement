@@ -12,7 +12,8 @@
 # Introduction
 
 [![codecov](https://codecov.io/gh/aaron-jaeger/ServiceRequestManagement/branch/main/graph/badge.svg)](https://codecov.io/gh/aaron-jaeger/ServiceRequestManagement)
-![Main Workflow](https://github.com/aaron-jaeger/ServiceRequestManagement/workflows/Main%20Workflow/badge.svg)
+![Build](https://github.com/aaron-jaeger/ServiceRequestManagement/workflows/Build/badge.svg)
+![Deploy](https://github.com/aaron-jaeger/ServiceRequestManagement/workflows/Deploy/badge.svg)
 
 A simple API that provides functionality to improve tenant experience in a building while improving communication between building staff and tenants.
 
