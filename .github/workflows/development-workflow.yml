@@ -3,10 +3,14 @@ name: Development
 on:
   push:
     branches:
-      - '!main'
+      - '**'
+    branches_ignore:
+      - main
   pull_request:
     branches:
-      - '!main'
+      - '**'
+    branches_ignore:
+      - main
 
 jobs:
   Build:
