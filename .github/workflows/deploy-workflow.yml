@@ -31,7 +31,6 @@ jobs:
   
   Deploy:
     name: Deploy to Production
-    needs: Dockerize
     runs-on: ubuntu-latest
     steps:
     - name: Azure Login
