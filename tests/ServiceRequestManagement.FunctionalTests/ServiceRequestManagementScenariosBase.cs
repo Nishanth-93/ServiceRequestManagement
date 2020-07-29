@@ -36,7 +36,7 @@ namespace ServiceRequestManagement.FunctionalTests
         {
             public static string ServiceRequests = "api/servicerequest";
 
-            public static string ServiceRequestBy(int id)
+            public static string ServiceRequestById(Guid id)
             {
                 return $"api/servicerequest/{id}";
             }
@@ -44,7 +44,7 @@ namespace ServiceRequestManagement.FunctionalTests
 
         public static class Put
         {
-            public static string ServiceRequestBy(int id)
+            public static string ServiceRequestById(Guid id)
             {
                 return $"api/servicerequest/{id}";
             }
@@ -52,12 +52,12 @@ namespace ServiceRequestManagement.FunctionalTests
 
         public static class Post
         {
-            public static string ServiceRequests = "api/servicerequest";
+            public static string ServiceRequest = "api/servicerequest";
         }
 
         public static class Delete
         {
-            public static string ServiceRequestBy(int id)
+            public static string ServiceRequestById(Guid id)
             {
                 return $"api/servicerequest/{id}";
             }
